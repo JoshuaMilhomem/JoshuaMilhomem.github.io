@@ -66,32 +66,24 @@
 			float: right;
 		}
 
-
-
     </style>
   </head>
   <body>
     
     <div class="container">
-
     	<div class="box">
-
     		<div id="title">
     			<h1>Git Clone Project</h1>
     		</div>
     		<div class="line"></div>
-
-
     		<div class="inputs-box">
     			<input type="link" name="link" placeholder="Repository URL" id="url"> 
     			<button type="button" class="btn btn-primary gf" id="urlbutton">Clique Aqui</button>
-
 				  <div class="form-group" id="branch" style="display: none;">
 				    <label for="exampleFormControlSelect1">Escolha a Branch</label>
 				    <select class="form-control" id="exampleFormControlSelect1" class="select">
 				    </select>
 				    <button type="button" class="btn btn-success gf" id="bt2">Clique Aqui</button>
-
 				  </div>
     		</div>
     		<div id="codebox" class="gf" style="display: none;">
@@ -99,10 +91,7 @@
     			</p>
     			<button type="button" class="btn btn-dark" id="copycode">Copiar</button>
     		</div>
-
-
     	</div>
-
     </div>
 
     <!-- Optional JavaScript -->
@@ -140,7 +129,8 @@
     		var url = $('#url').val()
     		var link = url
     		url = parserurl(url)
-    		var path = url.replace("LineageOS/android_","")
+    		var path = url.split("/")[1]
+    		var path = path.replace("android_","")
     		var path = path.replace(/_/g,"/",)
     		handlerBranchs(url)
 
@@ -150,16 +140,8 @@
   				var branch = $("select").children("option:selected").val();
     			var code = "git clone "+link+" -b "+branch+" "+path
     			$("#code").text(code)
-
-    			$('#copycode').bind('click', function(){
-    				code = $("#code").text()
-    				code.select();
-    				document.execCommand("copy");
-    				alert("copiado")
-    			})
     		})
     	})
-
 
     </script>
   </body>
