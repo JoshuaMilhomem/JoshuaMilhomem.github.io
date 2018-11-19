@@ -64,6 +64,9 @@
 	#copycode {
 		float: right;
 	}
+	#code{
+		min-height: 60px;
+	}
 
     </style>
   </head>
@@ -102,7 +105,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
     	
-    	function handlerBranchs(data) {
+    	function getBranchs(data) {
     		$.ajax({
     			type:'GET',
     			datatype:'json',
@@ -110,7 +113,7 @@
     			success:function(json) {
     				draw(json)
     			}
-    		})
+    		});
 
     	}
 
@@ -120,34 +123,52 @@
     		}
     	}
 
-    	function parserurl(data){
+    	function parserUrl(data){
     		return data.replace("https://github.com/", "");
     	}
 
-    	$('#copycode').click(function(){
-    		var code = $('#codearea')
-    		code.select()
-    		document.execCommand("copy");
-    	})
+    	function parserPath(data){
+    		data.split("/")[1];
+    		data.replace("android_","");
+    		data.replace(/_/g,"/",);
+    		return data;
+    	}
 
     	$('#urlbutton').bind('click', function(){
     		var url = $('#url').val()
+    		if(url.includes(".git")){
+    			url = url.replace(".git","");
+    		}
+    		if($('#codearea') != ""){
+    			reset();
+    		}
     		var link = url
-    		url = parserurl(url)
-    		var path = url.split("/")[1]
-    		var path = path.replace("android_","")
-    		var path = path.replace(/_/g,"/",)
-    		handlerBranchs(url)
+    		var url = parserUrl(url)
+    		var path = parserPath(url);
+    		getBranchs(url);
 
     		$('#branch').show();
     		$('#bt2').bind('click', function(){
     			$("#codebox").show()
   				var branch = $("select").children("option:selected").val();
-    			var code = "git clone "+link+" -b "+branch+" "+path
-    			$("#code").text(code)
-    			$("#codearea").text(code)
-    		})
-    	})
+    			var code = "git clone "+link+" -b "+branch+" "+path;
+    			$("#code").text(code);
+    			$("#codearea").text(code);
+
+		    	$('#copycode').click(function(){
+		    		var code = $('#codearea');
+		    		code.select();
+		    		document.execCommand("copy");
+		    	});
+
+    		});
+    	});
+
+    	function reset(){
+    		$("select").empty();
+    		$('#codearea').empty();
+    		$("#codebox").hide();
+    	}
 
     </script>
   </body>
