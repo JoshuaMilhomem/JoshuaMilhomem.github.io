@@ -128,9 +128,10 @@
     	}
 
     	function parserPath(data){
-    		data.split("/")[1];
-    		data.replace("android_","");
-    		data.replace(/_/g,"/",);
+    		data = data.split("/")[1];
+	        data = data.replace("proprietary_","");
+                data = data.replace("android_","");
+    		data = data.replace(/_/g,"/",);
     		return data;
     	}
 
@@ -146,12 +147,8 @@
     		}
     		var link = url
     		var url = parserUrl(url)
-		getBranchs(url);
-		
-		if(url.includes("proprietary_")){
-			url = url.replace("proprietary_","");
-		}
-    		var path = parserPath(url);
+		    var path = parserPath(url);
+		    getBranchs(url);
     		
 		
     		$('#branch').show();
