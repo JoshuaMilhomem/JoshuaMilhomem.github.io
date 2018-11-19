@@ -136,9 +136,6 @@
 
     	$('#urlbutton').bind('click', function(){
     		var url = $('#url').val()
-		if(url.includes("proprietary_")){
-			url = url.replace("proprietary_","");
-		}
 		
     		if(url.includes(".git")){
     			url = url.replace(".git","");
@@ -149,9 +146,14 @@
     		}
     		var link = url
     		var url = parserUrl(url)
+		getBranchs(url);
+		
+		if(url.includes("proprietary_")){
+			url = url.replace("proprietary_","");
+		}
     		var path = parserPath(url);
-    		getBranchs(url);
-
+    		
+		
     		$('#branch').show();
     		$('#bt2').bind('click', function(){
     			$("#codebox").show()
