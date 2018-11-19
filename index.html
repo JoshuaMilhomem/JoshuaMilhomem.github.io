@@ -136,9 +136,14 @@
 
     	$('#urlbutton').bind('click', function(){
     		var url = $('#url').val()
+		if(url.includes("proprietary_")){
+			url = url.replace("proprietary_","");
+		}
+		
     		if(url.includes(".git")){
     			url = url.replace(".git","");
     		}
+		
     		if($('#codearea') != ""){
     			reset();
     		}
