@@ -88,6 +88,7 @@
     		<div id="codebox" class="gf" style="display: none;">
     			<p id="code">
     			</p>
+    			<textarea id="codearea" style="position:absolute; left:-9999px"></textarea>
     			<button type="button" class="btn btn-dark" id="copycode">Copiar</button>
     		</div>
     	</div>
@@ -123,6 +124,12 @@
     		return data.replace("https://github.com/", "");
     	}
 
+    	$('#copycode').click(function(){
+    		var code = $('#codearea')
+    		code.select()
+    		document.execCommand("copy");
+    	})
+
     	$('#urlbutton').bind('click', function(){
     		var url = $('#url').val()
     		var link = url
@@ -138,6 +145,7 @@
   				var branch = $("select").children("option:selected").val();
     			var code = "git clone "+link+" -b "+branch+" "+path
     			$("#code").text(code)
+    			$("#codearea").text(code)
     		})
     	})
 
