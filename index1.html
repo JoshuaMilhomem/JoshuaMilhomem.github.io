@@ -1,0 +1,23 @@
+<html>
+	<body>
+		<select id="codename">
+			<option value=2>Teste</option>
+			<option>Teste1</option>
+			<option>Teste2</option>
+		</select>
+		
+		<button onclick="Resultado()">Click</button>
+		
+		<div id="result"></div>
+		
+		<script>
+			function Resultado(){
+				var result = "Numero " + document.querySelector('#codename').value
+				
+				document.querySelector('#result').innerHTML = result;
+			
+			}
+		</script>
+
+	</body>
+</html>
