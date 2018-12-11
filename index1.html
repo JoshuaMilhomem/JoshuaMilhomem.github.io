@@ -1,25 +1,54 @@
 <html>
 	<body>
+	<h1>Template Update Viper v5.1</h1>
 		<select id="codename">
-			<option value="*For:* Redmi Note 4/4X (mido)">Mido</option>
-			<option>Teste2</option>
+			<option value="*For:* Redmi Note 4/4X (mido) </br> *By*:Joshua_M">Mido</option>
+			<option value="*For: Redmi 4/4X (santoni) </br> By: SoniSins*">Santoni</option>
+			<option value="*For: Samsung Galaxy S5 (all series) </br> By: brunowp8*">Samsung Galaxy S5</option>
+			<option value="*For: Redmi 4A/5A (rolex/riva) </br> By: ECr34T1v3*">Rolex/Riva</option>
+			<option value="*For: Zenfone Max Pro M1(X00TD) </br> By: rr98076*">X00TD</option>
+			<option value="*For: Galaxy J7 Prime (On7xelte) </br> By: pennywise96*">On7xelte</option>
+			<option value="*For:  Redmi 5 (rosy) </br> By: ShreeJoy_Dash*">rosy</option>
+		<!--	<option value="*For: Redmi 4/4X (santoni) </br> By: SoniSins*">Santoni</option>
+			<option value="*For: Redmi 4/4X (santoni) </br> By: SoniSins*">Santoni</option>
+			<option value="*For: Redmi 4/4X (santoni) </br> By: SoniSins*">Santoni</option> -->
 		</select>
 		
-		<input type="version" placeholder="Qual a versão?" id="ver">
+		<!--<input type="version" placeholder="Qual a versão?" id="ver"> -->
+		<textarea rows="4" cols="30" placeholder="Changelog Device" id="changelog"></textarea>
+		<!--<input type="changelog" placeholder="Changelog Device" id="changelog"> -->
+		<input type="Download" placeholder="Download Link" id="download">
 		<button onclick="Resultado()">Click</button>
 	
 		<div id="result"></div>
-		<div id="version"></div> 
+		<!--<div id="version"></div> -->
+		<div id="changelog"></div> 
+		<div id="download"></div> 
+		
 		
 		<script>
 			function Resultado(){
-
-				var codename = document.querySelector('#codename').value
-				var version = document.querySelector('#ver').value
-				var result = "ViperOS update is up! </br> "+codename+" "+version
+				var codename = document.querySelector('#codename').value 
+				<!-- var version = document.querySelector('#ver').value -->
+				var changelog = document.querySelector('#changelog').value 
+				var download = document.querySelector('#download').value 
+				
+				var result = "*ViperOS update is up!* </br> "+
+				codename+"</br>"+ 
+				"</br> ViperOS v5.1"+ 
+				<!--version+ -->
+				"</br>"+ "Android 8.1.0 (Oreo)"+
+				"</br> </br>"+
+				"Changelog(ROM Source):</br>- https://t.me/viperos_news/643</br><br/>"
+				+ "*Changelog Device:* </br>"+"- "+changelog
+				+"</br></br> [Download]"+"("+ download +")"
+				
+				
+				
 				
 				document.querySelector('#result').innerHTML = result;
 				document.querySelector('#ver').innerHTML = version;
+				document.querySelector('#changelog').innerHTML = changelog;
 			
 			}
 		</script>
