@@ -19,17 +19,37 @@
 		<!--<input type="changelog" placeholder="Changelog Device" id="changelog"> -->
 		<input type="Download" placeholder="Download Link" id="download">
 		<button onclick="Resultado()">Click</button>
-	
-		<div id="result"></div>
+	</br>
+		<button id="btnCopy">Copy</button>
+		
 		<!--<div id="version"></div> -->
 		<div id="changelog"></div> 
 		<div id="download"></div> 
+		<div id="result"</div>
+			
 		
+		<script type="text/javascript">
+		
+			const result = document.getElementById("changelog");
+			const btnCopy = document.getElementById("btnCopy");
+			
+			btnCopy.onclick	= function() {
+			
+				result.select();
+			
+			
+			};
+		
+		
+		
+		</script>
+			
 		
 		<script>
 			function Resultado(){
+					
 				var codename = document.querySelector('#codename').value 
-				//var version = document.querySelector('#ver').value
+				<!-- var version = document.querySelector('#ver').value -->
 				var changelog = document.querySelector('#changelog').value 
 				var download = document.querySelector('#download').value 
 				
@@ -43,15 +63,16 @@
 				+ "**Changelog Device:** </br>"+"- "+changelog
 				+"</br></br> [Download]"+"("+ download +")"
 				
-				
-				
-				
 				document.querySelector('#result').innerHTML = result;
 				document.querySelector('#ver').innerHTML = version;
 				document.querySelector('#changelog').innerHTML = changelog;
 			
 			}
+			
 		</script>
+		
+		
+		
 
 	</body>
 </html>
