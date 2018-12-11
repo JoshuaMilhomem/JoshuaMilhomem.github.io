@@ -13,10 +13,10 @@
 		
 		<script>
 			function Resultado(){
-				var result = "ViperOS update is up! </br> " +
-				document.querySelector('#codename').value + "</br>" +
-				document.querySelector('#ver').value
-				
+
+				var codename = document.querySelector('#codename').value
+				var version = document.querySelector('#ver').value
+				var result = "ViperOS update is up! </br> "+codename+" "+version
 				
 				document.querySelector('#result').innerHTML = result;
 				document.querySelector('#ver').innerHTML = version;
