@@ -1,19 +1,25 @@
 <html>
 	<body>
 		<select id="codename">
-			<option  value="Redmi note 4">Mido</option>
+			<option value="*For:* Redmi Note 4/4X (mido)">Mido</option>
 			<option>Teste2</option>
 		</select>
 		
+		<input type="version" placeholder="Qual a versão?" id="ver">
 		<button onclick="Resultado()">Click</button>
-		
+	
 		<div id="result"></div>
+		<div id="version"></div> 
 		
 		<script>
 			function Resultado(){
-				var result = "ViperOS update is up! </br>" + document.querySelector('#codename').value
+				var result = "ViperOS update is up! </br> " +
+				document.querySelector('#codename').value + "</br>" +
+				document.querySelector('#ver').value
+				
 				
 				document.querySelector('#result').innerHTML = result;
+				document.querySelector('#ver').innerHTML = version;
 			
 			}
 		</script>
