@@ -1,0 +1,91 @@
+<html>
+		<style>
+			h1 {
+			color: black;
+			font-family: courier;
+			font-size: 150%;
+			border: 1px solid black;
+
+				}
+		</style>
+		
+	<body>	
+	
+	<center>
+		<h1 id="title">Template Update Viper</h1>
+	
+		<select id="codename">
+		</select>
+		
+		</center>
+		
+			<textarea rows="4" cols="30" placeholder="Changelog Device" id="changelog"></textarea>
+			<input type="Download" placeholder="Download Link" id="download">
+			<button onclick="Resultado()">Click</button>		
+		
+		<div id="changelog"></div> 
+		<div id="download"></div> 
+		
+		<center>
+			<textarea style="min-height: 280px; min-width: 350px;" id="result"></textarea>
+			</br>		
+			<button id="btnCopy">Copy</button>
+		</center>	
+		
+		<script type="text/javascript">
+
+			var devices = { 
+				"mido":['Redmi Note 4/4X','Joshua_M'],
+				"santoni":["Redmi 4/4X",'SoniSins'] 
+			}
+
+			var props = {
+				"version":"v5.1",
+				"android":"8.1.0 (Oreo)",
+				"changelog":"https://t.me/viperos_news/643"
+			}
+
+			for (device in devices){
+				var option = document.createElement("option");
+				option.text = device;
+				var select = document.getElementById("codename");
+				select.appendChild(option);
+			}
+
+			document.querySelector('#title').innerText += " "+props['version']
+
+			const result = document.getElementById("result");
+			const btnCopy = document.getElementById("btnCopy");
+			
+			btnCopy.onclick	= function() {
+				result.select();
+				document.execCommand("copy");
+			
+			};
+
+			function Resultado(){
+					
+				var codename = document.querySelector('#codename').value 
+				var changelog = document.querySelector('#changelog').value 
+				var download = document.querySelector('#download').value 
+				var device_name = devices[codename][0]
+				var maintainer = devices[codename][1]
+
+
+				var res = "ViperOS update is up!\n"+device_name+" ("+codename+") by "+maintainer;
+				res += "\n\nViperOS: "+props['version']+"\nAndroid: "+props['android'];
+				res += "\n\nChangelog(ROM): "+props['changelog']
+				if(changelog != ""){
+					res += "\n\nChangelog(device): "+changelog
+				}
+				res += "\n\n[Download]("+download+")";
+				
+				document.querySelector('#result').innerHTML = res;
+			
+			}
+			
+		</script>
+	
+	</body>
+	
+</html>
