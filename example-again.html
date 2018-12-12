@@ -74,9 +74,9 @@
 
 				var res = "ViperOS update is up!\n"+device_name+" ("+codename+") by "+maintainer;
 				res += "\n\nViperOS: "+props['version']+"\nAndroid: "+props['android'];
-				res += "\n\nChangelog(ROM): "+props['changelog']
+				res += "\n\nChangelog(ROM): \n- "+props['changelog']
 				if(changelog != ""){
-					res += "\n\nChangelog(device): "+changelog
+					res += "\n\nChangelog(device): \n"+changelog
 				}
 				res += "\n\n[Download]("+download+")";
 				
