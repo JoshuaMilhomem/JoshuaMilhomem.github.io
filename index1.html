@@ -14,15 +14,7 @@
 	<center>
 		<h1>Template Update Viper v5.1</h1>
 	
-		<select id="codename">
-			<option value="**For: Redmi Note 4/4X (mido) By:Joshua_M**">Mido</option>
-			<option value="**For: Redmi 4/4X (santoni) By: SoniSins**">Santoni</option>
-			<option value="**For: Samsung Galaxy S5 (all series) </br> By: brunowp8**">Samsung Galaxy S5</option>
-			<option value="**For: Redmi 4A/5A (rolex/riva) </br> By: ECr34T1v3**">Rolex/Riva</option>
-			<option value="**For: Zenfone Max Pro M1(X00TD) </br> By: rr98076**">X00TD</option>
-			<option value="**For: Galaxy J7 Prime (On7xelte) </br> By: pennywise96**">On7xelte</option>
-			<option value="**For: Redmi 5 (rosy) </br> By: ShreeJoy_Dash**">rosy</option>
-		</select>
+		<select id="codename"></select>
 		
 		</center>
 		
@@ -41,6 +33,25 @@
 		
 		<script type="text/javascript">
 		
+			var devices = {
+				"mido":['Redmi Note 4/4X','Joshua_M'],
+				"santoni":["Redmi 4/4X",'SoniSins'],
+				"Samsung Galaxy S5 (all series":['Samsung Galaxy S5','brunowp8'],
+				"rolex/riva":['Redmi 4A/5A','ECr34T1v3'],
+				"X00TD":["Zenfone Max Pro M1",'rr98076'],
+				"On7xelte":["Galaxy J7 Prime","pennywise96"],
+				"rosy":["Redmi 5","ShreeJoy_Dash"]
+			}
+			
+		for (device in devices){
+
+				var option = document.createElement("option");
+				option.text = devices[device][0];+ " ("+device+")"; 
+				option.value = device
+				var select = document.getElementById("codename");
+				select.appendChild(option);
+		}
+				
 			const result = document.getElementById("result");
 			const btnCopy = document.getElementById("btnCopy");
 			
@@ -61,19 +72,39 @@
 				var codename = document.querySelector('#codename').value 
 				var changelog = document.querySelector('#changelog').value 
 				var download = document.querySelector('#download').value 
+				var device_name = devices[codename][0]
+				var maintainer = devices[codename][1]
 				
-				var result = "**ViperOS update is up!** \n"+
-				codename+"\n"+ 
+				
+				
+				var result = "**ViperOS update is up!** \n" +"**"+ device_name + " (" + codename +")"+
+				"\n"+ "By:"+ maintainer+"**"+"\n"+
+				"\nViperOS v5.1"+  
+				"\n"+ "Android 8.1.0 (Oreo)"+ 
+				"\n \n"+ 
+				"**Changelog(ROM Source):**\n- https://t.me/viperos_news/643"+ "\n \n" 
+				+ "**Changelog Device:**\n"+"- "+changelog 
+				+"\n\n[Download]"+"("+ download +")" 
+
+				if(changelog){
+				document.querySelector('#changelog').innerHTML = changelog;
+				}
+				
+				else{
+				var result = "**ViperOS update is up!** \n" +"**"+ device_name + " (" + codename +")"+
+				"\n"+ "By:"+ maintainer+"**"+"\n"+
 				"\nViperOS v5.1"+ 
 				"\n"+ "Android 8.1.0 (Oreo)"+
-				"\n \n"+
-				"Changelog(ROM Source):\n- https://t.me/viperos_news/643"+ "\n \n"
-				+ "**Changelog Device:**\n"+"- "+changelog
-				+"\n\n[Download]"+"("+ download +")"
+				"\n \n" +
+				"**Changelog(ROM Source):**\n- https://t.me/viperos_news/643"+ "\n"
+				+"\n[Download]"+"("+ download +")"
+			
+				}
 				
 				document.querySelector('#result').innerHTML = result;
 				document.querySelector('#ver').innerHTML = version;
-				document.querySelector('#changelog').innerHTML = changelog;
+				
+				
 			
 			}
 			
