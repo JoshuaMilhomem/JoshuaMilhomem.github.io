@@ -36,7 +36,7 @@
 			var devices = {
 				"mido":['Redmi Note 4/4X','Joshua_M'],
 				"santoni":["Redmi 4/4X",'SoniSins'],
-				"Samsung Galaxy S5 (all series":['Samsung Galaxy S5','brunowp8'],
+				"all series":['Samsung Galaxy S5','brunowp8'],
 				"rolex/riva":['Redmi 4A/5A','ECr34T1v3'],
 				"X00TD":["Zenfone Max Pro M1",'rr98076'],
 				"On7xelte":["Galaxy J7 Prime","pennywise96"],
@@ -46,7 +46,7 @@
 		for (device in devices){
 
 				var option = document.createElement("option");
-				option.text = devices[device][0];+ " ("+device+")"; 
+				option.text = devices[device][0]+ " ("+device+")"; 
 				option.value = device
 				var select = document.getElementById("codename");
 				select.appendChild(option);
