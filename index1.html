@@ -126,7 +126,12 @@
 				var device_name = devices[codename][0]
 				var maintainer = devices[codename][1]
 				
-				
+				var temp = changelog.split('\n');
+				changelog = '';
+
+				for (var j = 0; j < temp.length; j++) {
+				   changelog += "- "+temp[j]+"\n"
+				}
 				
 				var result = "**ViperOS update is up!** \n" +"**"+ device_name + " (" + codename +")"+
 				"\n"+ "By:"+ maintainer+"**"+"\n"+
@@ -152,9 +157,7 @@
 			
 				}
 				
-				document.querySelector('#result').innerHTML = result;
-				document.querySelector('#ver').innerHTML = version;
-				
+				document.querySelector('#result').innerHTML = result;				
 				
 			
 			}
