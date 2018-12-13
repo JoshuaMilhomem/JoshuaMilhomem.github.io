@@ -130,7 +130,9 @@
 				changelog = '';
 
 				for (var j = 0; j < temp.length; j++) {
-				   changelog += "- "+temp[j]+"\n"
+					if(temp[j] != ""){
+						changelog += "- "+temp[j]+"\n"
+					}
 				}
 				
 				var result = "**ViperOS update is up!** \n" +"**"+ device_name + " (" + codename +")"+
