@@ -131,7 +131,10 @@
 
 				for (var j = 0; j < temp.length; j++) {
 					if(temp[j] != ""){
-						changelog += "- "+temp[j]+"\n"
+						changelog += "- "+temp[j]
+					}
+					if(j != (temp.length - 1)){
+						changelog += "\n"
 					}
 				}
 				
