@@ -12,11 +12,13 @@
     <title>GC - Project</title>
     <style type="text/css">
     	.box {
-    		height: 450px;
-    		width: 700px;
-    		box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            border: 1px solid #DADCE0;
+            border-radius: 4px;
+    		min-height: 550px;
+    		max-width: 700px;
     		margin: auto;
-    		margin-top: 10%;
+    		margin-top: 5%;
+            padding: 10px;
     	}
     	.gf {
     		font-family: "Product Sans";
@@ -25,49 +27,117 @@
     		font-family: "Product Sans";
     		text-align: center;
     		padding-top: 10px;
-    		color: #202124;
     	}
     	.line {
     		border-bottom: 1px solid #ccc;
-    		margin-top: 2px;
-    		margin-bottom: 5px;
+    		margin-top: 5px;
     	}
     	.inputs-box {
+            padding-top: 10px;
     		margin:10px;
     		text-align: center;
 
     	}
     	.inputs-box input {
     		width: 90%;
-    		border: 1px solid #ccc;
+    		border: none;
+            background-color: #F5F5F5;
     		border-radius: 3px;
-    		padding-left: 5px;
-    		padding-right: 5px;
+    		padding: 10px;
+            font-family: "Product Sans";
+            color: #4F565C;
 
     	}
     	.inputs-box button {
     		margin: 10px;
     	}
-	#exampleFormControlSelect1 {
+        .inputs-box input:focus {
+            background-color: white;
+            border: 1px solid #DADCE0;
+            outline: none;
+        }
+	#select {
 		width: 150px;
 		margin: auto;
+        border: none;
+        background-color: #F5F5F5;
 	}
+    #select:select{
+        outline-color: transparent;
+    }
+    .btn {
+        margin: 20px !important;
+    }
 	#codebox {
-		background-color: #3C4146;
+		background-color: #F5F5F5;
 		width: 90%;
-		height: 70px;
+		max-height: 95px;
+        font-size: 14px;
 		margin: auto;
 		border-radius: 4px;
-		color: #ddd;
 		padding: 10px;
 	}
 	#copycode {
-		float: right;
+        font-size: 13px;
+        border:none;
+        background-color: transparent;
+        float: right;
+        padding: 0px;
+        margin-left: 10px;
 	}
 	#code{
-		min-height: 60px;
+		min-height: 75px;
+        color: #4F565C;
+        word-break: break-all;
 	}
+    .btn-white {
+        background-color: transparent;
+        border: 1px solid #DADCE0;
+        font-family: "Product Sans";
+    }
+    #user {
+        display: inline-block;
+        padding: 10px;
+        margin-bottom: 8px;
+        word-break: break-all;
+    }
+    img {
+        padding: 0px;
+        margin:0px;
 
+    }
+    #user h5, h6 {
+        margin-left: 20px;
+    }
+    #user h6 {
+        font-size: 12px;
+    }
+    @media only screen and (max-width:800px){
+        #user {
+            padding: 0px;
+        }
+        #user h5, h6 {
+            font-size: 17px;
+            padding: 0px;
+            margin: 0px;
+        }
+        #user h6 {
+            font-size: 11px;
+        }
+        img {
+            width: 50px;
+            padding: 3px;
+        }
+        #subuser {
+            padding: 0px;
+            margin: 0px;
+        }
+        #title h1 {
+            font-size: 22px;
+            padding-bottom: 10px;
+        }
+  
+    }
     </style>
   </head>
   <body>
@@ -77,22 +147,36 @@
     		<div id="title">
     			<h1>Git Clone Project</h1>
     		</div>
+            <div id="user" class="gf" style="display: none;">
+                <img src="" width="60px">
+                <div id='subsuer' style="float: right;">
+                    <h5></h5>
+                    <h6></h6>
+                </div>
+
+                
+            </div>
     		<div class="line"></div>
     		<div class="inputs-box">
     			<input type="link" name="link" placeholder="Repository URL" id="url"> 
-    			<button type="button" class="btn btn-primary gf" id="urlbutton">Next</button>
+    			<button type="button" class="btn btn-white gf" id="urlbutton">Next</button>
 				  <div class="form-group" id="branch" style="display: none;">
-				    <label for="exampleFormControlSelect1">Choose the branch</label>
-				    <select class="form-control" id="exampleFormControlSelect1" class="select">
+				    <label for="select">Choose the branch</label>
+				    <select class="form-control" id="select" class="select">
 				    </select>
-				    <button type="button" class="btn btn-success gf" id="bt2">Next</button>
+				    <button type="button" class="btn btn-white gf" id="bt2">Next</button>
 				  </div>
     		</div>
     		<div id="codebox" class="gf" style="display: none;">
+                <button id='copycode' title="Copy">
+                    <svg style="width:16px;height:16px" viewBox="0 0 24 24">
+                        <path fill="#000" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
+                    </svg>
+                </button>
+
     			<p id="code">
     			</p>
     			<textarea id="codearea" style="position:absolute; left:-9999px"></textarea>
-    			<button type="button" class="btn btn-dark" id="copycode">Copy</button>
     		</div>
     	</div>
     </div>
@@ -117,17 +201,32 @@
 
     	}
 
+        function RepoDetails(url) {
+            $.ajax({
+                type:'GET',
+                datatype:'json',
+                url: "https://api.github.com/repos/"+url,
+                success:function(json) {
+                    $("#user img").attr('src',json.owner.avatar_url)
+                    $("#user h5").text(json.full_name)
+                    $("#user h6").text(json.description ? json.description : json.name )
+                    $("#title").hide();
+                    $("#user").show();
+                }
+            });
+        }
+
     	function draw(json) {
     		for (var i = json.length - 1; i >= 0; i--) {
     			$("<option value= "+json[i].name+">"+json[i].name+"</option>").appendTo("select")
     		}
     	}
 
-    	function parserUrl(data){
+    	function parserUrl(data) {
     		return data.replace("https://github.com/", "");
     	}
 
-    	function parserPath(data){
+    	function parserPath(data) {
     		data = data.split("/")[1];
 	        data = data.replace("proprietary_","");
                 data = data.replace("android_","");
@@ -147,6 +246,7 @@
     		}
     		var link = url
     		var url = parserUrl(url)
+            RepoDetails(url)
 		    var path = parserPath(url);
 		    getBranchs(url);
     		
