@@ -21,6 +21,7 @@
         }
         html, body {
             background-color: var(--background);
+
         }
     	.box {
             border: 1px solid var(--border);
@@ -35,11 +36,11 @@
     	.gf {
     		font-family: "Product Sans";
     	}
-    	#title {
+    	.title {
             color: var(--text);
     		font-family: "Product Sans";
     		text-align: center;
-    		padding-top: 10px;
+    		padding-top: 5px;
     	}
     	.line {
     		border-bottom: 1px solid var(--border);
@@ -86,7 +87,7 @@
 	#codebox {
 		background-color: var(--card);
 		width: 90%;
-		max-height: 95px;
+		max-height: 105px;
         font-size: 14px;
 		margin: auto;
 		border-radius: 4px;
@@ -136,8 +137,39 @@
         fill: var(--text);
     }
     .theme {
+        height: 18px;
+    }
+    .favorites {
+        background-color: var(--background);
+        min-width: 400px;
+        min-height: 300px;
+        position: fixed;
+        color: var(--text);
+        border: 1px solid var(--border);
+    }
+        .hitem img {
+        width: 30px;
+        float: left;
+        margin-right: 5px;
+        border-radius: 50%;
+    }
+    .hitem h5 {
+        font-size: 14px;
+        margin: 0px;
+        padding: 0px;
+        height: 30px;
+    }
+    .hitem {
+        padding: 6px;
+        margin-top: 5px;
+        font-family: "Product Sans";
+
+    }
+    .hitem span {
+        font-size: 10px;
         float: right;
     }
+
     @media only screen and (max-width:800px){
         #user {
             padding: 0px;
@@ -162,8 +194,11 @@
             font-size: 22px;
             padding-bottom: 10px;
         }
-  
+        .favorites {
+            width: unset;
+        }
     }
+
     </style>
   </head>
   <body>
@@ -171,11 +206,18 @@
     <div class="container">
     	<div class="box">
             <div class='theme'>
-                <svg onclick="switchTheme()" style="width:18px" viewBox="0 0 24 24">
+                <svg onclick="switchTheme()" style="width:18px; float: right;" viewBox="0 0 24 24">
                     <path class='icon' d="M12,18V6A6,6 0 0,1 18,12A6,6 0 0,1 12,18M20,15.31L23.31,12L20,8.69V4H15.31L12,0.69L8.69,4H4V8.69L0.69,12L4,15.31V20H8.69L12,23.31L15.31,20H20V15.31Z" />
                 </svg>
+                <svg id='hicon' onclick='$(".favorites").toggle()' style='float: left; display: none;' width="18" height="18" viewBox="0 0 24 24"><path class='icon' d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L12 15.45 7.77 18l1.12-4.81-3.73-3.23 4.92-.42L12 5l1.92 4.53 4.92.42-3.73 3.23L16.23 18z"/></svg>
             </div>
-    		<div id="title">
+                <div class="favorites" style="display: none;">
+                    <div class="title">
+                        <h4>favorites</h4>
+                    </div>
+                    <div class="line"></div>
+                </div>
+    		<div class="title">
     			<h1>Git Clone Project</h1>
     		</div>
             <div id="user" class="gf" style="display: none;">
@@ -184,8 +226,6 @@
                     <h5></h5>
                     <h6></h6>
                 </div>
-
-                
             </div>
     		<div class="line"></div>
     		<div class="inputs-box">
@@ -199,12 +239,13 @@
 				  </div>
     		</div>
     		<div id="codebox" class="gf" style="display: none;">
+                <div id='link' style="display: none"></div>
                 <button id='copycode' title="Copy">
                     <svg style="width:16px;height:16px" viewBox="0 0 24 24">
                         <path class="icon" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
                     </svg>
                 </button>
-
+                <svg class="icon" onclick="pushFav()" width="16" height="16" viewBox="0 0 24 24"><path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
     			<p id="code">
     			</p>
     			<textarea id="codearea" style="position:absolute; left:-9999px"></textarea>
@@ -220,14 +261,28 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
 
+
+        //dont blame me for this dirty code
+
         $(document).ready(function() {
             if(localStorage.getItem('theme')){
                 setTheme(localStorage.getItem('theme'));
             }
-        });
-    	
-        function switchTheme() {
 
+            if(localStorage.getItem('fav_count')){
+                $('#hicon').show();
+                drawFav();
+            }
+        });
+
+        function pushFav(){
+            var push = $("#link").text() + ',' + $("#user h5").text() + ',' + $("#user img").attr('src') + ',' + $("select").children("option:selected").val() + ','+getDate();
+            newFavorite(push);
+        }
+
+        function switchTheme() {
+            //this special algorithm uses machine learning to work
+            
             if(localStorage.getItem('theme') != 'dark'){
                 setTheme('dark');
             } else {
@@ -236,6 +291,7 @@
         }
 
         function setTheme(color) {
+            // this special algorithm uses machine learning to work too
 
             localStorage.setItem('theme',color)
 
@@ -259,8 +315,27 @@
     				draw(json)
     			}
     		});
-
     	}
+
+        //special algorithm for get date, developed by nasa.
+        function getDate() {
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+            var min = today.getMinutes();
+            var hours = today.getHours();
+
+            if (dd < 10) {
+              dd = '0' + dd;
+            }
+
+            if (mm < 10) {
+              mm = '0' + mm;
+            }
+
+            return hours + ':' + min + ' - ' + yyyy + mm + dd;
+        }
 
         function RepoDetails(url) {
             $.ajax({
@@ -271,7 +346,7 @@
                     $("#user img").attr('src',json.owner.avatar_url)
                     $("#user h5").text(json.full_name)
                     $("#user h6").text(json.description ? json.description : json.name )
-                    $("#title").hide();
+                    $(".title h1").hide();
                     $("#user").show();
                 }
             });
@@ -283,14 +358,69 @@
     		}
     	}
 
+        function drawFav() {
+            //algorithm that I achieved on my trip to the future (of 2098)
+
+                var counter = localStorage.getItem('fav_count');
+
+                if(counter >= 6){
+                    for (var f = 1; f <= 6; f++) {
+                        localStorage.setItem('fav_'+(f), localStorage.getItem('fav_'+(f+1) ))
+                    }
+                    localStorage.setItem('fav_count', (counter - 1 ))                    
+                }
+
+
+                $('.favorites .hitem').remove()
+                for (var i = localStorage.getItem('fav_count'); i >= 1; i--) {
+                    data = localStorage.getItem('fav_'+i)
+                    data = data.split(',')
+                    let html = "<div onclick='bringRepo("+i+")' class='hitem'>"+
+                            "<img src='"+data[2]+"'>"+
+                            "<h5>"+data[1]+"</h5>"+
+                            "<span>"+data[4]+"</span></div>"
+                    $(html).appendTo(".favorites");
+                }
+        }
+
+        function bringRepo(slot){
+            $(".favorites").hide();
+            data = localStorage.getItem('fav_'+slot).split(',');
+            $('#url').val(data[0]);
+            $("#urlbutton").click();
+            setTimeout(function() {
+                $("select").val(data[3]);
+            }, 150);
+
+            setTimeout(function() {
+                $("#bt2").click();
+            }, 1000);
+
+        }
+
     	function parserUrl(data) {
     		return data.replace("https://github.com/", "");
     	}
 
+        function newFavorite(arr, slot) {
+            var slot = localStorage.getItem('fav_count');
+            if(!slot){
+                var slot = 1;
+                $('#hicon').show();
+            }else{
+                slot++;
+            }
+            localStorage.setItem('fav_'+slot,arr);
+            localStorage.setItem('fav_count',slot);
+            drawFav();
+            alert("Done!")
+
+        }
+
     	function parserPath(data) {
     		data = data.split("/")[1];
 	        data = data.replace("proprietary_","");
-                data = data.replace("android_","");
+            data = data.replace("android_","");
     		data = data.replace(/_/g,"/",);
     		return data;
     	}
@@ -310,8 +440,7 @@
             RepoDetails(url)
 		    var path = parserPath(url);
 		    getBranchs(url);
-    		
-		
+
     		$('#branch').show();
     		$('#bt2').bind('click', function(){
     			$("#codebox").show()
@@ -319,6 +448,7 @@
     			var code = "git clone "+link+" -b "+branch+" "+path;
     			$("#code").text(code);
     			$("#codearea").text(code);
+                $("#link").text(link)
 
 		    	$('#copycode').click(function(){
 		    		var code = $('#codearea');
