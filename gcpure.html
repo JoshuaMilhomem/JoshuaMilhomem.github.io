@@ -104,7 +104,7 @@
 
 		<input type="text" name="url" placeholder="Repository URL">
 
-		<button>Next</button>
+		<button onclick="start()" >Next</button>
 
 		<label>Choose the branch</label>
 		<select id="select">
@@ -119,6 +119,63 @@
 			<p class="code">git clone https://github.com/andersonmendess/android_kernel_xiaomi_msm8953 -b lineage-16.0 kernel/xiaomi/msm8953</p>
 		</div>
 	</div>
-</body>
+	<script>
 
+	const start = () => {
+		let input = document.getElementsByName('url')[0].value;
+
+		input == "" ? alert("URL is empty") : convertUrlAsApi(input);
+	}
+
+	const convertUrlAsApi = (input) => {
+
+		const apiBase = 'https://api.github.com/repos';
+		let request = apiBase + input.split('github.com')[1];
+
+		fetchBranch(request + '/branches');
+		fetchRepository(request);
+
+	}
+
+	const fetchRepository = (url) => {
+		fetch(url).then(
+			(res) => {
+				res.json().then(
+					(data) => {
+						console.log(data);
+					}
+				)
+			}
+		).catch(
+			(error) => {
+				alert("Error");
+				console.log(error);
+			}
+		)
+	}
+
+	const fetchBranch = (url) => {
+		fetch(url).then(
+			(res) => res.json().then(
+				(data) => drawBranchOption(data)
+			)
+		)
+	}
+
+	const drawBranchOption = (branches) => {
+
+		let branchOption = document.getElementById("select");
+
+		branches.map(
+			(branch) => {
+				let option = document.createElement("option");
+				option.text = branch.name;
+				branchOption.appendChild(option);
+			}
+		)
+	}
+	
+	
+	</script>
+</body>
 </html>
