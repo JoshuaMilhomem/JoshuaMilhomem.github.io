@@ -67,7 +67,7 @@
 		margin-bottom: 20px;
 	}
 
-	h1 {
+	h1, h3, h5 {
 		font-family: inherit;
 		font-weight: 500;
 		text-align: center;
@@ -105,6 +105,22 @@
 		height: 16px;
 		fill: var(--text);
 	}
+	.gitHeader {
+		flex-direction: row;
+	    justify-content: center;
+		align-items: center; 
+		height: 100%;
+		display: none;
+	}
+	.gitHeader h3, h5 {
+		margin: 5px;
+		text-align: start;
+	}
+	.gitHeader img {
+		border-radius: 30px;
+		margin-right: 10px;
+
+	}
 
 </style>
 
@@ -114,7 +130,14 @@
 			<svg onclick="switchTheme()" class='icon' viewBox="0 0 24 24">
 				<path d="M12,18V6A6,6 0 0,1 18,12A6,6 0 0,1 12,18M20,15.31L23.31,12L20,8.69V4H15.31L12,0.69L8.69,4H4V8.69L0.69,12L4,15.31V20H8.69L12,23.31L15.31,20H20V15.31Z" />
 			</svg>
-			<h1>Git Clone Project</h1>
+			<h1 id='title'>Git Clone Project</h1>
+			<div class="gitHeader">
+			<img id='himage' width="60" height="60" />
+				<div>
+					<h3 id='horg'></h3>
+					<h5 id='hrepo'></h5>
+				</div>
+			</div>
 		</div>
 
 		<div class="line"></div>
@@ -125,8 +148,7 @@
 
 		<div class="branchContainer flex" style="display: none">
 			<label>Choose the branch</label>
-			<select id="select">
-			</select>
+			<select id="select"></select>
 			<button id='second'>Next</button>
 		</d>
 
@@ -140,7 +162,7 @@
 	</div>
 	<script>
 
-	window.addEventListener('load', function() {
+	window.addEventListener('load', () => {
 		document.getElementById('first').addEventListener('click', () => start());
 		localStorage.getItem('theme') == 'dark' ? switchTheme('dark') : null;
 	})
@@ -157,7 +179,7 @@
 		let request = apiBase + input.split('github.com')[1];
 
 		fetchBranch(request + '/branches');
-		document.getElementById('second').addEventListener('click', () => fetchRepository(request));
+		fetchRepository(request);
 
 	}
 
@@ -166,7 +188,7 @@
 			(res) => {
 				res.json().then(
 					(data) => {
-						drawCodeBox(data);
+						handleRepoReq(data);
 					}
 				)
 			}
@@ -206,6 +228,24 @@
 		return document.getElementById('select').options[index].text
 	}
 
+	const handleRepoReq = (data) => {
+
+		document.getElementById('second').addEventListener('click', () => drawCodeBox(data));
+
+		drawHeader(data);
+	}
+
+	const drawHeader = (data) => {
+
+		document.getElementById('title').style.display = 'none';
+
+		document.getElementsByClassName('gitHeader')[0].style.display = 'flex';
+		
+		document.getElementById('himage').src = data.owner.avatar_url
+		document.getElementById('horg').innerHTML = data.full_name.split('/')[0]
+		document.getElementById('hrepo').innerHTML = data.full_name.split('/')[1]
+	}
+
 	const drawCodeBox = (data) => {
 
 		let blackList = ['android/','proprietary/'];
@@ -238,13 +278,15 @@
 			color = localStorage.getItem('theme')
 		}
 
-		themes = {'white':['#FFF', '#F5F5F5', '#000', '#DADCE0'],
-                    'dark': ['#121212', '#272727', '#FFF', '#272727']}
+		themes = {
+			'white': ['#FFF', '#F5F5F5', '#000', '#DADCE0'],
+			'dark': ['#121212', '#272727', '#FFF', '#272727'],
+			'variables': ['--background', '--secondary', '--text', '--border']
+		}
 
-		document.documentElement.style.setProperty('--background', themes[color][0]);
-		document.documentElement.style.setProperty('--secondary', themes[color][1]);
-		document.documentElement.style.setProperty('--text', themes[color][2]);
-		document.documentElement.style.setProperty('--border', themes[color][3]);
+		themes['variables'].forEach( (variable, index) => {
+			document.documentElement.style.setProperty(variable, themes[color][index]);
+		});
 
 	}
 	
