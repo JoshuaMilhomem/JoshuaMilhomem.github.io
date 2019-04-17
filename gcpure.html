@@ -24,6 +24,12 @@
 		margin-top: 5%;
 	}
 
+	.flex {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
 	input {
 		height: 45px;
 		width: 90%;
@@ -104,22 +110,28 @@
 
 		<input type="text" name="url" placeholder="Repository URL">
 
-		<button onclick="start()" >Next</button>
+		<button id='first' >Next</button>
 
-		<label>Choose the branch</label>
-		<select id="select">
-			<option value="lineage-16.0">lineage-16.0</option>
-		</select>
-		<button>Next</button>
+		<div class="branchContainer flex" style="display: none">
+			<label>Choose the branch</label>
+			<select id="select">
+			</select>
+			<button id='second'>Next</button>
+		</d>
 
-		<div class="codebox">
-			<svg class='icon' viewBox="0 0 24 24">
+		<div class="codebox" style="display: none">
+			<svg id='copyIcon' class='icon' viewBox="0 0 24 24">
 				<path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
 			</svg>
-			<p class="code">git clone https://github.com/andersonmendess/android_kernel_xiaomi_msm8953 -b lineage-16.0 kernel/xiaomi/msm8953</p>
+			<p class="code"></p>
+			<textarea id="codearea" style="position:absolute; left:-9999px"></textarea>
 		</div>
 	</div>
 	<script>
+
+	window.addEventListener('load', function() {
+		document.getElementById('first').addEventListener('click', () => start());
+	})
 
 	const start = () => {
 		let input = document.getElementsByName('url')[0].value;
@@ -133,7 +145,7 @@
 		let request = apiBase + input.split('github.com')[1];
 
 		fetchBranch(request + '/branches');
-		fetchRepository(request);
+		document.getElementById('second').addEventListener('click', () => fetchRepository(request));
 
 	}
 
@@ -142,7 +154,7 @@
 			(res) => {
 				res.json().then(
 					(data) => {
-						console.log(data);
+						drawCodeBox(data);
 					}
 				)
 			}
@@ -173,8 +185,38 @@
 				branchOption.appendChild(option);
 			}
 		)
+
+		document.getElementsByClassName("branchContainer")[0].style.display = 'flex'
 	}
 	
+	const getSelectedBranch = () => {
+		index = document.getElementById('select').options.selectedIndex;
+		return document.getElementById('select').options[index].text
+	}
+
+	const drawCodeBox = (data) => {
+
+		let blackList = ['android/','proprietary/'];
+
+		let url = data.svn_url;
+		let path = data.name.replace(/_/g,"/");
+		let branch = getSelectedBranch();
+
+		blackList.forEach( e => path.includes(e) ? path = path.replace(e, '') : null );
+
+		let code = `git clone ${url} -b ${branch} ${path}`;
+
+		document.getElementsByClassName('code')[0].textContent = code;
+		document.getElementById('codearea').textContent = code;
+		
+		document.getElementsByClassName('codebox')[0].style.display='block'
+
+		document.getElementById('copyIcon').addEventListener('click', () => {
+			document.getElementById('codearea').select();
+			document.execCommand("copy");
+		});
+
+	}
 	
 	</script>
 </body>
