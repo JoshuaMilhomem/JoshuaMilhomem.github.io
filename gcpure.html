@@ -176,7 +176,7 @@
 	const convertUrlAsApi = (input) => {
 
 		const apiBase = 'https://api.github.com/repos';
-		let request = apiBase + input.split('github.com')[1];
+		let request = apiBase + input.split('github.com')[1].replace('.git','');
 
 		fetchBranch(request + '/branches');
 		fetchRepository(request);
