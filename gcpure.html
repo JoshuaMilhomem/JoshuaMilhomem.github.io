@@ -9,11 +9,21 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Product+Sans">
 </head>
 <style type="text/css">
+    :root {
+        --background: #FFF;
+        --text: #000;
+    	--border: #DADCE0;
+		--secondary: #F5F5F5;
+    }
 	* {
 		font-family: "Product Sans";
+		color: var(--text);
+	}
+	body {
+		background-color: var(--background);
 	}
 	.container {
-		border: 1px solid #DADCE0;
+		border: 1px solid var(--border);
 		max-width: 700px;
 		height: 510px;
 		border-radius: 5px;
@@ -33,14 +43,14 @@
 	input {
 		height: 45px;
 		width: 90%;
-		background-color: #f5f5f5;
+		background-color: var(--secondary);
 		border: none;
 		padding-left: 10px;
 		margin-bottom: 5px;
 	}
 
 	select {
-		background-color: #f5f5f5;
+		background-color: var(--secondary);
 		border: none;
 		margin: 10px;
 		padding: 10px;
@@ -49,7 +59,7 @@
 	}
 
 	button {
-		border: 1px solid #DADCE0;
+		border: 1px solid var(--border);
 		background-color: transparent;
 		margin: 10px;
 		padding: 10px;
@@ -69,7 +79,7 @@
 	}
 
 	.line {
-		border-bottom: 1px solid #ccc;
+		border-bottom: 1px solid var(--border);
 		width: 98%;
 		margin-top: 5px;
 		margin-bottom: 15px;
@@ -78,7 +88,7 @@
 	.codebox {
 		min-height: 80px;
 		width: 90%;
-		background-color: #f5f5f5;
+		background-color: var(--secondary);
 		margin: 5px;
 		padding: 5px;
 	}
@@ -93,6 +103,7 @@
 		padding: 8px;
 		width: 16px;
 		height: 16px;
+		fill: var(--text);
 	}
 
 </style>
@@ -100,7 +111,7 @@
 <body>
 	<div class='container'>
 		<div class="header">
-			<svg class='icon' viewBox="0 0 24 24">
+			<svg onclick="switchTheme()" class='icon' viewBox="0 0 24 24">
 				<path d="M12,18V6A6,6 0 0,1 18,12A6,6 0 0,1 12,18M20,15.31L23.31,12L20,8.69V4H15.31L12,0.69L8.69,4H4V8.69L0.69,12L4,15.31V20H8.69L12,23.31L15.31,20H20V15.31Z" />
 			</svg>
 			<h1>Git Clone Project</h1>
@@ -131,6 +142,7 @@
 
 	window.addEventListener('load', function() {
 		document.getElementById('first').addEventListener('click', () => start());
+		localStorage.getItem('theme') == 'dark' ? switchTheme('dark') : null;
 	})
 
 	const start = () => {
@@ -208,13 +220,31 @@
 
 		document.getElementsByClassName('code')[0].textContent = code;
 		document.getElementById('codearea').textContent = code;
-		
+
 		document.getElementsByClassName('codebox')[0].style.display='block'
 
 		document.getElementById('copyIcon').addEventListener('click', () => {
 			document.getElementById('codearea').select();
 			document.execCommand("copy");
 		});
+	}
+
+	const switchTheme = (theme = null) => {
+
+		if(theme != null) {
+			color = theme
+		} else {
+			localStorage.setItem('theme', localStorage.getItem('theme') === 'dark' ? 'white' : 'dark');
+			color = localStorage.getItem('theme')
+		}
+
+		themes = {'white':['#FFF', '#F5F5F5', '#000', '#DADCE0'],
+                    'dark': ['#121212', '#272727', '#FFF', '#272727']}
+
+		document.documentElement.style.setProperty('--background', themes[color][0]);
+		document.documentElement.style.setProperty('--secondary', themes[color][1]);
+		document.documentElement.style.setProperty('--text', themes[color][2]);
+		document.documentElement.style.setProperty('--border', themes[color][3]);
 
 	}
 	
