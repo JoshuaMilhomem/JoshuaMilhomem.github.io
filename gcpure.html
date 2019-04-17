@@ -288,6 +288,9 @@
 			document.documentElement.style.setProperty(variable, themes[color][index]);
 		});
 
+		document.querySelector("meta[name='theme-color']").content = themes[color][0];
+		document.querySelector("meta[name='msapplication-TileColor']").content = themes[color][0];
+
 	}
 	
 	</script>
